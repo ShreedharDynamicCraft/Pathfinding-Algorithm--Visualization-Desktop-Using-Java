@@ -63,6 +63,11 @@ public class Node implements Comparable<Node> {
     
 
     public void draw(Graphics2D g) {
+
+
+
+
+        
         rect.draw(g);
         wall.draw(g);
 //        if(isPath()) {

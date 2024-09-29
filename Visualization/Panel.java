@@ -8,15 +8,20 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Panel extends JPanel {
-    public static final Color BACKGROUND_COLOR = Color.WHITE;
-    public static final Color WALKABLE_COLOR = Color.WHITE;
-    public static final Color WALL_COLOR = new Color(0, 0, 0, 200);
-    public static final Color START_COLOR = new Color(255, 165, 0, 100);
-    public static final Color END_COLOR = new Color(121, 231, 90, 100);
-    public static final Color CHECKED_COLOR = new Color(0, 255, 255, 100);
-    public static final Color VISITED_COLOR = new Color(255, 236, 166, 100);
-    public static final Color PATH_COLOR = new Color(113, 39, 173, 255);
+    public static Color BACKGROUND_COLOR = Color.WHITE;
+    public static Color WALKABLE_COLOR = Color.WHITE;
+    public static Color WALL_COLOR = new Color(0, 0, 0, 200);
+    public static Color START_COLOR = new Color(255, 165, 0, 100);
+    public static Color END_COLOR = new Color(121, 231, 90, 100);
+    public static Color CHECKED_COLOR = new Color(0, 255, 255, 100);
+    public static Color VISITED_COLOR = new Color(255, 236, 166, 100);
+    public static Color PATH_COLOR = new Color(113, 39, 173, 255);
     public final SettingsPanel settingsPanel = new SettingsPanel(this);
+    private boolean isDarkMode = false;
+
+    public boolean isDarkMode() {
+        return isDarkMode;
+    }
 
     public static int WIDTH = 1500;
     public static int HEIGHT = 900;
@@ -239,4 +244,37 @@ public class Panel extends JPanel {
         System.out.println("Maze dimensions set to: " + rows + "x" + cols);
     }
 
+    public void toggleMode() {
+        isDarkMode = !isDarkMode;
+
+        // Set colors based on mode
+        BACKGROUND_COLOR = isDarkMode ? Color.BLACK : Color.WHITE;
+        WALKABLE_COLOR = isDarkMode ? Color.black : Color.WHITE;
+        WALL_COLOR = isDarkMode ? Color.blue : new Color(0, 0, 0, 200);
+        // START_COLOR = isDarkMode ? new Color(255, 140, 0, 150) : new Color(255, 165, 0, 100);
+        // END_COLOR = isDarkMode ? new Color(100, 255, 100, 150) : new Color(121, 231, 90, 100);
+        // CHECKED_COLOR = isDarkMode ? new Color(0, 180, 180, 150) : new Color(0, 255, 255, 100);
+        // VISITED_COLOR = isDarkMode ? new Color(255, 200, 150, 150) : new Color(255, 236, 166, 100);
+        // PATH_COLOR = isDarkMode ? new Color(113, 39, 173, 200) : new Color(113, 39, 173, 255);
+
+        // Set the panel's background
+        setBackground(BACKGROUND_COLOR);
+
+        // Repaint to apply the changes
+        repaint();
+    }
+
+    
+    
+    public void setDarkMode(boolean isDarkMode) {
+        this.isDarkMode = isDarkMode; // Set the instance variable
+        setBackground(isDarkMode ? Color.DARK_GRAY : Color.WHITE);
+        // repaint(); // Refresh the panel to apply the new background
+        
+    }
+    
+    
+
 }
+
+

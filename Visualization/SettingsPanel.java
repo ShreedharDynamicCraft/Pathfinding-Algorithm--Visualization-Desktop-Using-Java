@@ -60,6 +60,8 @@ public class SettingsPanel extends JPanel {
     private final JComboBox<String> mazeTypeBox = new JComboBox<>(mazeTypes);
 
     private final Panel panel;
+    JButton toggleButton = new JButton("Toggle Dark/Light Mode");
+
 
     JButton uploadButton = new JButton("Upload Maze");
     private JLabel selectedFileLabel;
@@ -72,7 +74,24 @@ public class SettingsPanel extends JPanel {
  // Variable to hold the selected file
  private File selectedFile = null;
 
+ private Frame frame; // Reference to Frame
 
+ public SettingsPanel(Panel panel,Frame frame) {
+     this.frame = frame; // Store the reference
+     this.panel = panel;
+     this.setPreferredSize(new Dimension(SETTINGS_WIDTH, SETTINGS_HEIGHT));
+     this.setLayout(null);
+     Color sky = new Color(70, 116, 176); // RGB values for sky blue
+     this.setBackground(sky);
+     this.setBounds(Panel.WIDTH - SETTINGS_WIDTH, 0, SETTINGS_WIDTH, SETTINGS_HEIGHT);
+     this.add(uploadButton);
+     selectedFileLabel = new JLabel("No file selected.");
+     add(selectedFileLabel);
+     addButtonsToPanel();
+     setButtonsBounds();
+     setButtonsAction();
+ }
+ 
     
     public SettingsPanel(Panel panel) {
         this.panel = panel;
@@ -107,8 +126,9 @@ public class SettingsPanel extends JPanel {
         }
     }
 
-    
-    
+
+
+
     
     private void addButtonsToPanel() {
         // add speed to panel
@@ -134,12 +154,15 @@ public class SettingsPanel extends JPanel {
             this.add(heuristicBox);
         }
         // add function buttons to panel
+                this.add(toggleButton);
+
         this.add(startButton);
         this.add(resetButton);
         this.add(stop);
         // add info to panel
         this.add(info);
     }
+    
 
     private void setButtonsBounds() {
         int downShift = 20;
@@ -184,7 +207,10 @@ public class SettingsPanel extends JPanel {
         stop.setBounds((SETTINGS_WIDTH - buttonWidth) / 2, downShift * 15, buttonWidth, downShift);
 
 
-        
+        toggleButton.setBounds((SETTINGS_WIDTH - buttonWidth-1) / 2, downShift * 10, buttonWidth, downShift);
+        toggleButton.setVisible(true);
+
+
 
 // info bounds (for displaying algorithm info)
 info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased height
@@ -199,6 +225,8 @@ info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased h
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetPath();
+                stopMusic();
+
                 if (!isPathfindingActive) {
                     System.out.println("Starting pathfinding..."); // Debug log
                     isPathfindingActive = true; // Set flag to true when pathfinding starts
@@ -253,6 +281,8 @@ info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased h
                 drawPath = !drawPath; // Toggle draw path state
                 stop.setText(drawPath ? "Stop" : "Start");
                 panel.repaint();
+                stopMusic();
+
             }
         
         });
@@ -326,6 +356,8 @@ resetButton.addActionListener(new ActionListener() {
         if (maze != null) {
             maze.execute();
         }
+       
+
     }
 });
 
@@ -384,7 +416,28 @@ resetButton.addActionListener(new ActionListener() {
             }
         });
 
-
+        // toggleButton.addActionListener(e -> {
+        //     boolean newDarkModeState = !panel.isDarkMode(); // Toggle the dark mode state
+        //     panel.setDarkMode(newDarkModeState); // Update the panel's dark mode state
+        //     frame.toggleMode(); // Update frame's mode as needed
+        // });
+        
+        
+        toggleButton.addActionListener(e -> {
+            panel.toggleMode(); // Toggle the mode directly
+        
+            // Update the button text based on the current mode
+            if (panel.isDarkMode()) {
+                toggleButton.setText("Light Mode");
+                info.setForeground(Color.WHITE);
+            } else {
+                toggleButton.setText("Dark Mode");
+                info.setForeground(Color.BLACK);
+            }
+        
+            panel.repaint(); // Refresh panel to show changes
+        });
+        
 
 
         // uploadButton.addActionListener(new ActionListener() {
@@ -469,6 +522,8 @@ public void generateMazeFromTextFile(File selectedFile) throws IOException {
 private void updateSelectedFileLabel() {
     selectedFileLabel.setText(selectedFile.getName());
 }
+
+
 
 
 
