@@ -70,15 +70,14 @@
     //         }
     //     }
     // }
-
     package Visualization;
 
     import javax.swing.*;
     import java.awt.*;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
-    import java.awt.event.MouseAdapter; // Add this import
-    import java.awt.event.MouseEvent;   // Add this import
+    import java.awt.event.MouseAdapter;
+    import java.awt.event.MouseEvent;
     import java.util.Random;
     
     public class Frame extends JFrame {
@@ -161,10 +160,57 @@
                         welcomeLabel.setBackground(Color.LIGHT_GRAY); // Reset background
                         welcomeLabel.setForeground(Color.BLUE); // Reset text color
                     }
+    
+                    // Mouse click to show project information
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        showProjectInfo(); // Show project info when clicked
+                    }
                 });
     
                 titlePanel.add(welcomeLabel); // Add welcome label to the title panel
     
+
+             // Add the project info button
+JButton projectInfoButton = new JButton("Project Info");
+projectInfoButton = new JButton("Project Info");
+projectInfoButton.setFont(new Font("Arial", Font.PLAIN, 16));
+projectInfoButton.setForeground(Color.WHITE);
+
+
+projectInfoButton.setBackground(new Color(0, 123, 255)); // Blue background
+projectInfoButton.setOpaque(true);
+projectInfoButton.setBorder(BorderFactory.createCompoundBorder(
+    BorderFactory.createLineBorder(Color.ORANGE, 3), // Outer border
+    BorderFactory.createEmptyBorder(5, 10, 5, 10)    // Padding inside
+));
+projectInfoButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Hand cursor on hover
+
+
+
+
+
+
+// Add an action listener to show the project info when the button is clicked
+projectInfoButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        showProjectInfo(); // Show project information
+    }
+});
+
+
+projectInfoButton.setBounds(-10, 20, 150, 40); // x, y, width, height
+
+// Add the project info button to the title panel
+titlePanel.add(projectInfoButton); // Adding button to the left
+
+// Revalidate and repaint the panel to ensure the button shows up
+titlePanel.revalidate();
+titlePanel.repaint();
+
+
+
                 // Add the title panel to the top of the frame
                 this.add(titlePanel, BorderLayout.NORTH);
     
@@ -189,7 +235,7 @@
                     setTitleWithColor(randomColor); // Set the new title color
                 }
             });
-            titleAnimationTimer.start(); // Start the timer
+            titleAnimationTimer.start();
         }
     
         // Method to change the color of the title label
@@ -213,5 +259,28 @@
                 e.printStackTrace(); // Handle interruption
             }
         }
+    
+        // Method to show project information when the user clicks the welcome label
+// Method to display the formatted project report information
+private void showProjectInfo() {
+    String infoMessage = "<html><body style='text-align: center;'>"
+            + "<h2 style='font-size: 28px;'>Path Finding Algorithms Visualizer</h2>"
+            + "<p style='font-size: 16px;'><b>A report submitted for the course named Project I (CSXXX)</b></p>"
+            + "<p style='margin-top: 40px; font-size: 18px;'><em><b>Submitted By</b></em></p>"
+            + "<p style='font-size: 18px;'><b>Shreedhar Anand</b><br>22010138</p>"
+            + "<p style='margin-top: 40px; font-size: 18px;'><em>Under the guidance of</em></p>"
+            + "<p style='font-size: 18px;'><b>Dr. Navnath Saharia</b></p>"
+            + "<p style='margin-top: 20px;'>"
+            + "<img src='file:Visualization/iiitm-logo.png' style='width: 80px;'/>"
+            + "</p>"
+            + "<p style='font-size: 16px;'><b>Department of Computer Science and Engineering<br>"
+            + "Indian Institute of Information Technology Senapati, Manipur</b></p>"
+            + "<p style='font-size: 16px;'>October 2024</p>"
+            + "</body></html>";
+
+    // Create a dialog box to show the formatted information
+    JOptionPane.showMessageDialog(this, infoMessage, "Project Information", JOptionPane.INFORMATION_MESSAGE);
+}
+
     }
     
