@@ -189,8 +189,6 @@ projectInfoButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Hand cursor on h
 
 
 
-
-
 // Add an action listener to show the project info when the button is clicked
 projectInfoButton.addActionListener(new ActionListener() {
     @Override
