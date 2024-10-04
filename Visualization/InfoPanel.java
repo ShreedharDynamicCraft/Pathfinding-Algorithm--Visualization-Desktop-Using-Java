@@ -155,22 +155,62 @@ public class InfoPanel {
 
     private String getDetailedAlgorithmInfo(String algorithm) {
         String info = "<html><head>"
-                + "<style>"
-                + "body { width: 600px; font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); }"
-                + "h2 { color: #4CAF50; text-align: center; }"
-                + "h3 { color: #2196F3; }"
-                + "ul { list-style-type: square; padding-left: 20px; }"
-                + "p { font-size: 14px; line-height: 1.6; }"
-                + ".container { display: flex; flex-direction: column; align-items: center; }"
-                + ".section { margin: 20px 0; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 100%; }"
-                + ".animation { text-align: center; margin-top: 20px; }"
-                + ".animation img { max-width: 100%; height: auto; }"  // Make the animation responsive
-                + "button { background-color: #4CAF50; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; transition: background-color 0.3s; }"
-                + "button:hover { background-color: #45a049; }"
-                + "</style>"
-                + "<script>"
-                + "function printPage() { window.print(); }"
-                + "</script></head><body class='container'>";
+        + "<style>"
+        + "body { "
+        + "    font-family: Arial, sans-serif; "
+        + "    background-color: #f9f9f9; "
+        + "    padding: 20px; "
+        + "    border-radius: 10px; "
+        + "    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); "
+        + "    margin: 0; "
+        + "    display: flex; "
+        + "    justify-content: center; "
+        + "    align-items: center; "
+        + "    min-height: 100vh; "
+        + "} "
+        + ".container { "
+        + "    max-width: 600px; "
+        + "    width: 100%; "
+        + "    display: flex; "
+        + "    flex-direction: column; "
+        + "    align-items: center; "
+        + "} "
+        + ".section { "
+        + "    margin: 20px 0; "
+        + "    padding: 20px; "
+        + "    background: #fff; "
+        + "    border-radius: 5px; "
+        + "    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); "
+        + "    width: 100%; "
+        + "    transition: transform 0.3s, box-shadow 0.3s; " // Add transition for hover effect
+        + "} "
+        + ".section:hover { "
+        + "    transform: translateY(-5px); " // Lift effect on hover
+        + "    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); " // Enhanced shadow on hover
+        + "} "
+        + "h2 { color: #4CAF50; text-align: center; } "
+        + "h3 { color: #2196F3; } "
+        + "ul { list-style-type: square; padding-left: 20px; } "
+        + "p { font-size: 14px; line-height: 1.6; } "
+        + ".animation { text-align: center; margin-top: 20px; } "
+        + ".animation img { max-width: 100%; height: auto; } " // Responsive image
+        + "button { "
+        + "    background-color: #4CAF50; "
+        + "    color: white; "
+        + "    border: none; "
+        + "    padding: 10px 15px; "
+        + "    cursor: pointer; "
+        + "    border-radius: 5px; "
+        + "    transition: background-color 0.3s, transform 0.3s; " // Button hover effect
+        + "} "
+        + "button:hover { "
+        + "    background-color: #45a049; "
+        + "    transform: scale(1.05); " // Slightly enlarge button on hover
+        + "} "
+        + "</style>"
+      
+        + "</head><body class='container'>";
+
     
         switch (algorithm) {
             case "Dijkstra":
@@ -379,7 +419,6 @@ public class InfoPanel {
                 break;
         }
     
-        info += "<button onclick='printPage()'>Print</button></body></html>";
     
         return info;
     }

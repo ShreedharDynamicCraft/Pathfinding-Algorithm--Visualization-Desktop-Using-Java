@@ -1,76 +1,4 @@
-    // package Visualization;
-
-    // import javax.swing.*;
-    // import java.awt.*;
-    // import java.awt.event.ActionEvent;
-    // import java.awt.event.ActionListener;
-    // import java.util.Random;
-
-    // public class Frame extends JFrame {
-    //     private static Frame instance;
-    //     private Timer titleAnimationTimer;
-    //     private JLabel titleLabel; // JLabel for the title
-    //     private String baseTitle = "Path Finder Visualizer";
-    //     private Random random;
-
-    //     private Frame() {
-    //         random = new Random();
-    //     }
-
-    //     public static Frame getInstance() {
-    //         if (instance == null) {
-    //             instance = new Frame();
-    //         }
-    //         return instance;
-    //     }
-
-    //     public void init() {
-    //         if (instance != null) {
-    //             // Set the layout
-    //             this.setLayout(new BorderLayout());
-
-    //             // Create and configure the title label
-    //             titleLabel = new JLabel(baseTitle, SwingConstants.CENTER);
-    //             titleLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Set font to bold
-    //             titleLabel.setPreferredSize(new Dimension(400, 50)); // Set preferred size
-    //             this.add(titleLabel, BorderLayout.NORTH); // Add title label to the top
-
-    //             this.getContentPane().add(new Panel(), BorderLayout.CENTER); // Assuming Panel is defined elsewhere
-    //             this.pack();
-    //             this.setLocationRelativeTo(null);
-    //             this.setVisible(true);
-
-    //             // Start the title animation
-    //             startTitleAnimation();
-    //         }
-    //     }
-
-    //     private void startTitleAnimation() {
-    //         titleAnimationTimer = new Timer(500, new ActionListener() {
-    //             @Override
-    //             public void actionPerformed(ActionEvent e) {
-    //                 // Random color generation
-    //                 Color randomColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
-    //                 setTitleWithColor(randomColor);
-    //             }
-    //         });
-    //         titleAnimationTimer.start();
-    //     }
-
-    //     private void setTitleWithColor(Color color) {
-    //         // Change the title label color
-    //         titleLabel.setForeground(color);
-    //     }
-
-    //     public static void frameRate(int fps) {
-    //         try {
-    //             Thread.sleep(1000 / fps);
-    //         } catch (InterruptedException e) {
-    //             e.printStackTrace();
-    //         }
-    //     }
-    // }
-    package Visualization;
+     package Visualization;
 
     import javax.swing.*;
     import java.awt.*;
@@ -263,7 +191,7 @@ titlePanel.repaint();
 private void showProjectInfo() {
     String infoMessage = "<html><body style='text-align: center;'>"
             + "<h2 style='font-size: 28px;'>Path Finding Algorithms Visualizer</h2>"
-            + "<p style='font-size: 16px;'><b>A report submitted for the course named Project I (CSXXX)</b></p>"
+            + "<p style='font-size: 16px;'><b>A report submitted for the course named Project I (CS3201)</b></p>"
             + "<p style='margin-top: 40px; font-size: 18px;'><em><b>Submitted By</b></em></p>"
             + "<p style='font-size: 18px;'><b>Shreedhar Anand</b><br>22010138</p>"
             + "<p style='margin-top: 40px; font-size: 18px;'><em>Under the guidance of</em></p>"

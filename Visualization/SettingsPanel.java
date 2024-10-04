@@ -1,36 +1,26 @@
     package Visualization;
+    import javax.swing.*; // GUI components (JButton, JLabel, etc.)
+   import Algorithms.Create.*; // Maze creation algorithms
+    import Algorithms.Search.*; // Pathfinding algorithms (A*, Dijkstra, etc.)
+    import Util.HeuristicFunction; // Heuristic functions for search
+    // import Util.MazeGenerator; // Maze generation (unused)
+    import Util.Node; // Node representation
+    
+    import Visualization.InfoPanel; // Displays algorithm info
+    import javax.swing.filechooser.FileNameExtensionFilter; // File chooser filter
+    
+    import java.awt.*; // Layout, dimensions, colors
+    import java.util.ArrayList; // List management
+    import java.util.Objects; // Object utilities
+    import static Visualization.Panel.*; // Static members from Panel
+    import javax.sound.sampled.*; // Audio handling
 
-    import Algorithms.Create.*;
-    import Algorithms.Search.*;
-    import Util.HeuristicFunction;
-    // import Util.MazeGenerator;
-    import Util.Node;
-
-    import Visualization.InfoPanel;
-
-    import javax.swing.*;
-    import javax.swing.filechooser.FileNameExtensionFilter;
-
-    import java.awt.*;
-    import java.awt.event.ActionEvent;
-    import java.awt.event.ActionListener;
-    import java.awt.event.AdjustmentEvent;
-    import java.awt.event.AdjustmentListener;
-    import java.util.ArrayList;
-    import java.util.Objects;
-
-    import static Visualization.Panel.*;
-
-
-    import javax.sound.sampled.*;
-    import java.io.File;
-    import java.io.IOException;
-
-    import java.io.FileNotFoundException;
-    import java.util.Scanner;
-
-    import java.awt.event.*; // For ActionListener and AdjustmentListener
-
+    import java.io.File; // File handling
+    import java.io.IOException; // IO exceptions
+    import java.io.FileNotFoundException; // File not found exceptions
+    import java.util.Scanner; // Input reading from files
+    import java.awt.event.*; // Event handling (ActionListener, etc.)
+    
 
     public class SettingsPanel extends JPanel {
         private final JButton startButton = new JButton("Start");
@@ -120,20 +110,8 @@
             this.panel = panel;
             this.infoPanel = infoPanel != null ? infoPanel : new InfoPanel(algorithmBox.getSelectedItem().toString(), this);
 
-            this.setPreferredSize(new Dimension(SETTINGS_WIDTH, SETTINGS_HEIGHT));
-            this.setLayout(null);
-            Color sky = new Color(70, 116, 176); // RGB values for sky blue
-            this.setBackground(sky);
-            this.setBounds(Panel.WIDTH - SETTINGS_WIDTH, 0, SETTINGS_WIDTH, SETTINGS_HEIGHT);
-            this.add(uploadButton);
-            selectedFileLabel = new JLabel("No file selected.");
-            add(selectedFileLabel);
-            addButtonsToPanel();
-            setButtonsBounds();
-            setButtonsAction();
-
-
-        }
+            initSettingsPanel();
+  }
 
         private void playMusic() {
             try {
@@ -153,62 +131,89 @@
             }
         }
 
-     
-
-
-        
-        private void addButtonsToPanel() {
-            // add speed to panel
-
-            
-            this.add(speedLabel);
-            this.add(speed);
-            this.add(speedValue);
-            // add size to panel
-            this.add(sizeLabel);
-            this.add(size);
-            this.add(sizeValue);
-            // add maze type to panel
-            this.add(mazeTypeLabel);
-            this.add(mazeTypeBox);
-            this.add(uploadButton); // Add upload button to panel
-            // add algorithm to panel
-            this.add(algorithmLabel);
-            this.add(algorithmBox);
-            // add heuristic to panel
-            if(Objects.equals(algorithmBox.getSelectedItem(), "A*")){
-                this.add(heuristicLabel);
-                this.add(heuristicBox);
-            }
-            // add function buttons to panel
-                    this.add(toggleButton);
-
-            this.add(startButton);
-            this.add(resetButton);
-            this.add(stop);
-            // add info to panel
-            this.add(info);
-
-            getMoreInfoButton = new JButton("Get More Info");
-            getMoreInfoButton.setBackground(Color.YELLOW);
-            getMoreInfoButton.setVisible(true);
-            
-            getMoreInfoButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Get More Info button clicked"); // Debugging line
-                    if (infoPanel != null) {
-                        infoPanel.showMoreInfo();
-                    } else {
-                        System.out.println("infoPanel is null");
-                    }                }
-            });
-            
-            
-            this.add(getMoreInfoButton);  
-            this.revalidate(); // Ensure layout is updated
-            this.repaint();
     
+        private void addButtonsToPanel() {
+            // Add components to panel in structured order
+            addComponents(speedLabel, speed, speedValue);         // Speed controls
+            addComponents(sizeLabel, size, sizeValue);            // Size controls
+            addComponents(mazeTypeLabel, mazeTypeBox, uploadButton);  // Maze type and upload button
+            addComponents(algorithmLabel, algorithmBox);          // Algorithm selection
+        
+            // Conditionally add heuristic selection based on algorithm choice
+            if ("A*".equals(algorithmBox.getSelectedItem())) {
+                addComponents(heuristicLabel, heuristicBox);
+            }
+        
+            // Add functional buttons to panel
+            addComponents(toggleButton, startButton, resetButton, stop);
+        
+            // Add information panel and details button
+            this.add(info);
+            setupMoreInfoButton();  // Setup the 'Algorithm Details' button
+            
+            this.revalidate();
+            this.repaint();
+        }
+        
+        // Helper method to add multiple components to the panel
+        private void addComponents(JComponent... components) {
+            for (JComponent component : components) {
+                this.add(component);
+            }
+        }
+        
+        // Setup for the 'Algorithm Details' button
+        private void setupMoreInfoButton() {
+            getMoreInfoButton = new JButton("Algorithm Details");
+            getMoreInfoButton.setBackground(Color.ORANGE);
+            getMoreInfoButton.setForeground(Color.BLACK);
+            getMoreInfoButton.setFocusPainted(false);
+            getMoreInfoButton.setFont(new Font("Arial", Font.BOLD, 14));
+            getMoreInfoButton.setToolTipText("Get detailed explanation of the selected algorithm");
+        
+            // Add hover and click effects using a single MouseAdapter
+            getMoreInfoButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setButtonBackground(getMoreInfoButton, new Color(255, 165, 0));  // Light Orange on hover
+                }
+        
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setButtonBackground(getMoreInfoButton, Color.PINK);  // Default color on exit
+                }
+        
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    setButtonBackground(getMoreInfoButton, new Color(255, 140, 0));  // Darker Orange on press
+                }
+        
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    Color background = getMoreInfoButton.getBounds().contains(e.getPoint())
+                        ? new Color(255, 165, 0) : Color.PINK;
+                    setButtonBackground(getMoreInfoButton, background);  // Set based on hover or default
+                }
+            });
+        
+            // Action listener for button click
+            getMoreInfoButton.addActionListener(e -> {
+                System.out.println("Algorithm Details button clicked");
+                if (infoPanel != null) {
+                    infoPanel.showMoreInfo();
+                } else {
+                    System.out.println("infoPanel is null");
+                }
+            });
+        
+            // Add the button to the panel
+            this.add(getMoreInfoButton);
+        }
+        
+        // Helper method to set button background and repaint
+        private void setButtonBackground(JButton button, Color color) {
+            button.setBackground(color);
+            button.repaint();
         }
         
 
@@ -216,7 +221,7 @@
             int downShift = 20;
             int labelWidth = 50;
             int scrollWidth = 150;
-            int buttonWidth = 100;
+            int buttonWidth = 140;
             int fontSize = 15;
             // speed bounds
             speedLabel.setBounds((SETTINGS_WIDTH - labelWidth) / 2 - scrollWidth, downShift, labelWidth, downShift);
@@ -231,7 +236,6 @@
             mazeTypeBox.setBounds((SETTINGS_WIDTH - scrollWidth) / 2, downShift * 5, scrollWidth, downShift);
             uploadButton.setBounds((SETTINGS_WIDTH - buttonWidth) / 2, downShift * 6, buttonWidth, downShift);
             uploadButton.setVisible(false); // Initially hidden, will appear when "Upload Text File" is selected
-
 
 
             // algorithm bounds
@@ -340,8 +344,6 @@
             });
             
 
-
-
     // Action Listener for the Upload Button
     uploadButton.addActionListener(new ActionListener() {
         @Override
@@ -355,12 +357,10 @@
         }
     });
 
-
             // Add components to the panel
             add(uploadButton);
             add(selectedFileLabel);
         
-
 
     // Action Listener for the Reset Button (which may also be the Generate button)
     resetButton.addActionListener(new ActionListener() {
@@ -393,10 +393,10 @@
 
             // Handling other maze types if applicable
             MazeAlgo maze = switch (selectedMaze) {
+                case "Binary Tree" -> new BinaryTreeMaze(panel);
                 case "Recursive Backtracking" -> new RBTMaze(panel);
                 case "Prim's" -> new PrimMaze(panel);
                 case "Hunt & Kill" -> new HuntAndKillMaze(panel);
-                case "Binary Tree" -> new BinaryTreeMaze(panel);
                 case "Wilson's" -> new WilsonMaze(panel);
                 case "Kruskal's" -> new KruskalMaze(panel);
                 case "Aldous-Broder" -> new AldousBroder(panel);
@@ -468,14 +468,7 @@
                 }
             });
 
-            // toggleButton.addActionListener(e -> {
-            //     boolean newDarkModeState = !panel.isDarkMode(); // Toggle the dark mode state
-            //     panel.setDarkMode(newDarkModeState); // Update the panel's dark mode state
-            //     frame.toggleMode(); // Update frame's mode as needed
-            // });
-            
-            
-            toggleButton.addActionListener(e -> {
+           toggleButton.addActionListener(e -> {
                 panel.toggleMode(); // Toggle the mode directly
             
                 // Update the button text based on the current mode
@@ -489,29 +482,11 @@
             
                 panel.repaint(); // Refresh panel to show changes
             });
-            
 
-
-            // uploadButton.addActionListener(new ActionListener() {
-            //     @Override
-            //     public void actionPerformed(ActionEvent e) {
-            //         JFileChooser fileChooser = new JFileChooser();
-            //         int returnValue = fileChooser.showOpenDialog(null);
-            //         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            //             File selectedFile = fileChooser.getSelectedFile();
-            //             // Add logic to handle the uploaded maze file
-            //             System.out.println("Maze file uploaded: " + selectedFile.getAbsolutePath());
-            //         }
-            //     }
-            // });
             
         }
 
-        
-
-
-        
-        private void resetPath() {
+           private void resetPath() {
             for (Util.Node[] nodes : nodesGrid) {
                 for (int j = 0; j < nodes.length; j++) {
                     nodes[j].resetPath();
@@ -574,9 +549,6 @@
     private void updateSelectedFileLabel() {
         selectedFileLabel.setText(selectedFile.getName());
     }
-
-
-
 
 
     }
