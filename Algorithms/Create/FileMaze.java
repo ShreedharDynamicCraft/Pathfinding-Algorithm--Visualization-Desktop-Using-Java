@@ -15,22 +15,21 @@ import java.util.Random;
 public class FileMaze extends MazeAlgo {
     private final List<Node> nodesList = new ArrayList<>();
 
-    private File selectedFile;  // Declare selectedFile
-    private int numRow, numCol; // Declare numRow and numCol
-    private Node[][] nodesGrid; // Declare nodesGrid
+    private File selectedFile;
+    private int numRow, numCol;
+    private Node[][] nodesGrid;
 
     public FileMaze(Panel panel) {
         super(panel);
     }
+
     public void setSelectedFile(File file) {
         this.selectedFile = file;
     }
-    
-    
 
     @Override
     protected void generateMaze() {
-        readMazeFromFile(selectedFile); // Assume selectedFile is set when the user uploads the file
+        readMazeFromFile(selectedFile);
     }
 
     private void readMazeFromFile(File file) {
@@ -45,7 +44,6 @@ public class FileMaze extends MazeAlgo {
                 numRow = Integer.parseInt(dimensions[0]);
                 numCol = Integer.parseInt(dimensions[1]);
 
-                // Initialize nodesGrid here
                 nodesGrid = new Node[numRow][numCol];
 
                 int row = 0;
@@ -60,12 +58,10 @@ public class FileMaze extends MazeAlgo {
                     row++;
                 }
                 
-                // You can add a check to see if the file provided less than expected rows
                 if (row < numRow) {
                     showError("The maze file does not contain enough rows.");
                     return;
                 }
-                // Start Prim's algorithm to generate the maze
                 primMazeGeneration();
             } else {
                 showError("The maze file is empty.");
@@ -132,7 +128,6 @@ public class FileMaze extends MazeAlgo {
         public Node getNode1() {
             return node1;
         }
-        
 
         public Node getNode2() {
             return node2;
