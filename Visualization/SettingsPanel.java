@@ -58,23 +58,19 @@ public class SettingsPanel extends JPanel {
     JButton uploadButton = new JButton("Upload Maze");
     private JLabel selectedFileLabel;
     
-
     private JButton getMoreInfoButton;
 
     private  InfoPanel infoPanel;
-
-    
+ 
     private Clip clip; // Field to manage sound
 
     private boolean isPathfindingActive = false; // Flag to track pathfinding state
 
-// Variable to hold the selected file
-private File selectedFile = null;
+private File selectedFile = null; // Variable to hold the selected file
 
 private Frame frame; // Reference to Frame
 
 String algorithm = "Dijkstra"; // Example algorithm name
-
 
 public SettingsPanel(Panel panel, Frame frame) {
     this.frame = frame; // Store the reference
@@ -85,9 +81,7 @@ this.infoPanel = infoPanel != null ? infoPanel : new InfoPanel(algorithmBox.getS
 public SettingsPanel(Panel panel, InfoPanel infoPanel) {
     this.panel = panel;
     this.infoPanel = infoPanel != null ? infoPanel : new InfoPanel(algorithmBox.getSelectedItem().toString(), this);
-
-    // Other initialization code...
-    initSettingsPanel();
+ initSettingsPanel();  // Other initialization code...
 }
 
 private void initSettingsPanel() {
@@ -105,34 +99,28 @@ private void initSettingsPanel() {
     this.repaint();
 }
 
-    
-    public SettingsPanel(Panel panel) {
+public SettingsPanel(Panel panel) {
         this.panel = panel;
         this.infoPanel = infoPanel != null ? infoPanel : new InfoPanel(algorithmBox.getSelectedItem().toString(), this);
-
         initSettingsPanel();
 }
 
-    private void playMusic() {
-        try {
-            File musicFile = new File("bensound-inspire.wav"); // Path to your music file
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY); // Play music in a loop
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
-            ex.printStackTrace();
-        }
+private void playMusic() {
+    try {
+        clip = AudioSystem.getClip();
+        clip.open(AudioSystem.getAudioInputStream(new File("bensound-inspire.wav")));
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+        ex.printStackTrace();
     }
-    
-    private void stopMusic() {
+}
+       private void stopMusic() {
         if (clip != null && clip.isRunning()) {
             clip.stop(); // Stop the music
         }
     }
 
-
-    private void addButtonsToPanel() {
+  private void addButtonsToPanel() {
         // Add components to panel in structured order
         addComponents(speedLabel, speed, speedValue);         // Speed controls
         addComponents(sizeLabel, size, sizeValue);            // Size controls
@@ -170,32 +158,7 @@ private void initSettingsPanel() {
         getMoreInfoButton.setFocusPainted(false);
         getMoreInfoButton.setFont(new Font("Arial", Font.BOLD, 14));
         getMoreInfoButton.setToolTipText("Get detailed explanation of the selected algorithm");
-    
-        // Add hover and click effects using a single MouseAdapter
-        getMoreInfoButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setButtonBackground(getMoreInfoButton, new Color(255, 165, 0));  // Light Orange on hover
-            }
-    
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setButtonBackground(getMoreInfoButton, Color.PINK);  // Default color on exit
-            }
-    
-            @Override
-            public void mousePressed(MouseEvent e) {
-                setButtonBackground(getMoreInfoButton, new Color(255, 140, 0));  // Darker Orange on press
-            }
-    
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                Color background = getMoreInfoButton.getBounds().contains(e.getPoint())
-                    ? new Color(255, 165, 0) : Color.PINK;
-                setButtonBackground(getMoreInfoButton, background);  // Set based on hover or default
-            }
-        });
-    
+     
         // Action listener for button click
         getMoreInfoButton.addActionListener(e -> {
             System.out.println("Algorithm Details button clicked");
@@ -216,7 +179,6 @@ private void initSettingsPanel() {
         button.repaint();
     }
     
-
     private void setButtonsBounds() {
         int downShift = 20;
         int labelWidth = 50;
@@ -236,7 +198,6 @@ private void initSettingsPanel() {
         mazeTypeBox.setBounds((SETTINGS_WIDTH - scrollWidth) / 2, downShift * 5, scrollWidth, downShift);
         uploadButton.setBounds((SETTINGS_WIDTH - buttonWidth) / 2, downShift * 6, buttonWidth, downShift);
         uploadButton.setVisible(false); // Initially hidden, will appear when "Upload Text File" is selected
-
 
         // algorithm bounds
         algorithmLabel.setBounds((SETTINGS_WIDTH - labelWidth) / 2 - scrollWidth, downShift * 7,
@@ -258,11 +219,8 @@ private void initSettingsPanel() {
         resetButton.setBounds((SETTINGS_WIDTH - buttonWidth) / 2, downShift * 13, buttonWidth, downShift);
         stop.setBounds((SETTINGS_WIDTH - buttonWidth) / 2, downShift * 15, buttonWidth, downShift);
 
-
         toggleButton.setBounds((SETTINGS_WIDTH - buttonWidth-1) / 2, downShift * 10, buttonWidth, downShift);
         toggleButton.setVisible(true);
-
-
 
 // info bounds (for displaying algorithm info)
 info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased height
@@ -270,8 +228,6 @@ info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased h
         info.setForeground(Color.RED);
         info.setHorizontalAlignment(JLabel.CENTER);
         info.setVerticalAlignment(JLabel.CENTER);
-
-
         getMoreInfoButton.setBounds((SETTINGS_WIDTH - buttonWidth) / 2, downShift * 17, buttonWidth, downShift);
 
     }
@@ -311,8 +267,7 @@ info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased h
             }
         });
         
-
-        mazeTypeBox.addActionListener(new ActionListener() {
+     mazeTypeBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (mazeTypeBox.getSelectedItem().toString().equals("Upload Text File")) {
@@ -323,11 +278,11 @@ info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased h
             }
         });
 
-
-
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                stopMusic();
+
                 if (isPathfindingActive) {
                     // Logic to stop the pathfinding process if applicable
                     System.out.println("Stopping pathfinding..."); // Debug log
@@ -343,7 +298,6 @@ info.setBounds(0, downShift * 17, SETTINGS_WIDTH, fontSize * 32); // Increased h
         
         });
         
-
 // Action Listener for the Upload Button
 uploadButton.addActionListener(new ActionListener() {
     @Override
@@ -361,7 +315,6 @@ uploadButton.addActionListener(new ActionListener() {
         add(uploadButton);
         add(selectedFileLabel);
     
-
 // Action Listener for the Reset Button (which may also be the Generate button)
 resetButton.addActionListener(new ActionListener() {
     @Override
@@ -407,15 +360,12 @@ resetButton.addActionListener(new ActionListener() {
         // Execute maze algorithm if not null
         if (maze != null) {
             maze.execute();
+            // stopMusic();
         }
-    
-
     }
 });
 
 // Method to load maze from a text file
-
-
         speed.addAdjustmentListener(new AdjustmentListener() {
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
@@ -481,9 +431,7 @@ resetButton.addActionListener(new ActionListener() {
             }
         
             panel.repaint(); // Refresh panel to show changes
-        });
-
-        
+        });  
     }
 
        private void resetPath() {
@@ -507,7 +455,6 @@ resetButton.addActionListener(new ActionListener() {
         return (String) algorithmBox.getSelectedItem();
     }
     
-
     public void enableButtons(boolean b) {
         // size bounds
         size.setEnabled(b);
@@ -545,8 +492,7 @@ resetButton.addActionListener(new ActionListener() {
                         maze[i][j] = scanner.nextInt();
                     }
                 }
-        
-                // Update the panel with the new maze
+                        // Update the panel with the new maze
                 panel.setMazeDimensions(rows, cols);
                 panel.setMaze(maze);
                 System.out.println("Maze loaded successfully with " + rows + " rows and " + cols + " cols.");
@@ -555,15 +501,8 @@ resetButton.addActionListener(new ActionListener() {
                 throw e;
             }
         }
-
-        
-        
-
+    
 private void updateSelectedFileLabel() {
     selectedFileLabel.setText(selectedFile.getName());
 }
-
-
 }
-        
-                
