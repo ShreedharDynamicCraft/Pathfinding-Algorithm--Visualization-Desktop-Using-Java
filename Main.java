@@ -8,8 +8,9 @@
 // }
 
 
-import Visualization.Frame;
 import javax.swing.JOptionPane;
+
+import GraphicalUI.Frame;
 
 public class Main {
     public static void main(String[] args) {

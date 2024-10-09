@@ -1,10 +1,10 @@
 package Util;
 
+import static GraphicalUI.Panel.*;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
-import static Visualization.Panel.*;
 
 public class Node implements Comparable<Node> {
     public static Node start = null;

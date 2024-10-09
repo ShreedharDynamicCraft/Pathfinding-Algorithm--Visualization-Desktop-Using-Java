@@ -1,9 +1,9 @@
 package Util;
 
-import java.awt.*;
+import static GraphicalUI.Panel.WALL_COLOR;
+import static GraphicalUI.Panel.nodeSize;
 
-import static Visualization.Panel.WALL_COLOR;
-import static Visualization.Panel.nodeSize;
+import java.awt.*;
 
 public class Wall {
     private int x;

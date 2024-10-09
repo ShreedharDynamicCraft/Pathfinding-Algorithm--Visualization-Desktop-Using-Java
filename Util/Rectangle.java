@@ -1,8 +1,8 @@
 package Util;
 
-import java.awt.*;
+import static GraphicalUI.Panel.*;
 
-import static Visualization.Panel.*;
+import java.awt.*;
 
 public class Rectangle {
     private int x;
