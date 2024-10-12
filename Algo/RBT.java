@@ -1,4 +1,4 @@
-package Algorithms;
+package Algo;
 
 import Util.Node;
 

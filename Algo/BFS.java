@@ -1,23 +1,22 @@
-package Algorithms;
+package Algo;
 
 import Util.Node;
 
-import static GraphicalUI.Frame.frameRate;
 import static GraphicalUI.Panel.*;
 
 import java.util.Stack;
 
 import GraphicalUI.Panel;
 
-public class DFS extends SearchAlgo {
-    private long startTime;
+public class BFS extends SearchAlgo {
     private final Stack<Node> stack = new Stack<>();
 
-    public DFS(Panel panel) {
+    public BFS(Panel panel) {
         super(panel);
     }
 
-    public void find() {
+    @Override
+    protected void find() {
         stack.push(START_NODE);
         startTime = System.currentTimeMillis();
         while (!stack.isEmpty()) {
@@ -27,8 +26,9 @@ public class DFS extends SearchAlgo {
 //                tracePath();
                 break;
             }
-            for (Node neighbor : currentNode.getNeighbors()) {
-                if (!stack.contains(neighbor) && neighbor.isChecked() || neighbor.isOpen()) {
+            for (int i = currentNode.getNeighbors().size() - 1; i >= 0; i--) {
+                Node neighbor = currentNode.getNeighbors().get(i);
+                if (neighbor.isChecked() || neighbor.isOpen()) {
                     continue;
                 }
                 openNode(neighbor, currentNode);
@@ -37,7 +37,6 @@ public class DFS extends SearchAlgo {
             process();
         }
     }
-
 
     private void openNode(Node neighbor, Node currentNode) {
         neighbor.setAsOpen();
@@ -53,14 +52,6 @@ public class DFS extends SearchAlgo {
                 node.addNeighbors(false);
                 node.setParent(null);
             }
-        }
-    }
-
-    protected void process() {
-        searchTime = System.currentTimeMillis() - startTime;
-        panel.updateInfo();
-        if (solvingSpeed > 0) {
-            frameRate(solvingSpeed);
         }
     }
 }

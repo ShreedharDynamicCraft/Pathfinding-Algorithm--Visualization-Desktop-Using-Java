@@ -1,12 +1,12 @@
 package GraphicalUI;
 
-import javax.swing.*;
+import GraphicalUI.Frame;
+import GraphicalUI.Panel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import javax.swing.*;
 
 public class Frame extends JFrame {
     private static Frame instance;
@@ -16,6 +16,9 @@ public class Frame extends JFrame {
     private Random random;
     private String username;
     private boolean isDarkMode = false;
+    // private Color titlePanelColor = new Color(70, 130, 180); // Steel Blue
+    private Color titlePanelColor = Color.decode("#1636A0"); // Correct usage
+
 
     private Frame(String username) {
         this.username = username;
@@ -34,7 +37,7 @@ public class Frame extends JFrame {
             this.setLayout(new BorderLayout());
             JPanel titlePanel = new JPanel();
             titlePanel.setLayout(new BorderLayout());
-            titlePanel.setBackground(new Color(30, 30, 30)); // Dark background for title panel
+            titlePanel.setBackground(titlePanelColor);
 
             // Load and set the college logo
             ImageIcon logoIcon = new ImageIcon("GraphicalUI/iiitm-logo.png");
@@ -42,34 +45,34 @@ public class Frame extends JFrame {
             if (logoIcon.getIconWidth() != -1) {
                 JLabel logoLabel = new JLabel(logoIcon);
                 logoLabel.setPreferredSize(new Dimension(110, 110));
-                logoLabel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7)); // Padding around the logo
-                titlePanel.add(logoLabel, BorderLayout.WEST); // Add logo to the left
+                logoLabel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+                titlePanel.add(logoLabel, BorderLayout.WEST);
             } else {
                 System.out.println("Error: Logo image not found or could not be loaded.");
             }
 
             // Title in the center
             titleLabel = new JLabel(baseTitle, SwingConstants.CENTER);
-            titleLabel.setFont(new Font("Sans Serif", Font.BOLD, 36)); // Font change for modern look
+            titleLabel.setFont(new Font("Poppins", Font.BOLD, 40));
             titleLabel.setForeground(Color.WHITE);
-            titleLabel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3)); // Add padding to the title
+            titleLabel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
             titlePanel.add(titleLabel, BorderLayout.CENTER);
 
             // Panel to hold welcomeLabel and projectInfoButton dynamically
             JPanel userInfoPanel = new JPanel();
             userInfoPanel.setLayout(new BoxLayout(userInfoPanel, BoxLayout.X_AXIS));
-            userInfoPanel.setBackground(new Color(30, 30, 30)); // Matching background
+            userInfoPanel.setBackground(titlePanelColor);
 
             JLabel welcomeLabel = createWelcomeLabel();
-            userInfoPanel.add(welcomeLabel); // Add welcome label
+            userInfoPanel.add(welcomeLabel);
 
-            userInfoPanel.add(Box.createHorizontalStrut(10)); // Add space between username and button
+            userInfoPanel.add(Box.createHorizontalStrut(10));
 
             JButton projectInfoButton = createProjectInfoButton();
-            userInfoPanel.add(projectInfoButton); // Add project info button
+            userInfoPanel.add(projectInfoButton);
 
             userInfoPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-            titlePanel.add(userInfoPanel, BorderLayout.EAST); // Add to the right
+            titlePanel.add(userInfoPanel, BorderLayout.EAST);
 
             this.add(titlePanel, BorderLayout.NORTH);
             this.getContentPane().add(new Panel(), BorderLayout.CENTER);
@@ -83,28 +86,45 @@ public class Frame extends JFrame {
 
     private JLabel createWelcomeLabel() {
         JLabel welcomeLabel = new JLabel("Welcome, " + username);
-        welcomeLabel.setFont(new Font("Sans Serif", Font.ITALIC, 28)); // Slightly larger font
-        welcomeLabel.setForeground(Color.CYAN);
+        welcomeLabel.setFont(new Font("Sans Serif", Font.BOLD, 28));
+        welcomeLabel.setForeground(new Color(255, 255, 255)); // White text
         welcomeLabel.setOpaque(true);
-        welcomeLabel.setBackground(new Color(50, 50, 50)); // Dark background for welcome label
-        welcomeLabel.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2)); // Border around label
+        welcomeLabel.setBackground(new Color(41, 128, 185)); // Bright blue
         welcomeLabel.setBorder(BorderFactory.createCompoundBorder(
-                welcomeLabel.getBorder(),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10))); // Padding around the label
-
+                BorderFactory.createLineBorder(new Color(52, 152, 219), 2), // Light blue border
+                BorderFactory.createEmptyBorder(8, 15, 8, 15)));
+    
         welcomeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                welcomeLabel.setBackground(Color.ORANGE);
-                welcomeLabel.setForeground(Color.BLACK);
+                welcomeLabel.setBackground(new Color(52, 152, 219)); // Lighter blue on hover
+                welcomeLabel.setForeground(new Color(255, 255, 255)); // Keep text white
+                welcomeLabel.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(41, 128, 185), 2),
+                        BorderFactory.createEmptyBorder(8, 15, 8, 15)));
+                welcomeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
-
+    
             @Override
             public void mouseExited(MouseEvent e) {
-                welcomeLabel.setBackground(new Color(50, 50, 50));
-                welcomeLabel.setForeground(Color.CYAN);
+                welcomeLabel.setBackground(new Color(41, 128, 185)); // Back to original blue
+                welcomeLabel.setForeground(new Color(255, 255, 255)); // White text
+                welcomeLabel.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(52, 152, 219), 2),
+                        BorderFactory.createEmptyBorder(8, 15, 8, 15)));
+                welcomeLabel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
-
+    
+            @Override
+            public void mousePressed(MouseEvent e) {
+                welcomeLabel.setBackground(new Color(31, 97, 141)); // Darker blue when pressed
+            }
+    
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                welcomeLabel.setBackground(new Color(52, 152, 219)); // Back to hover color
+            }
+    
             @Override
             public void mouseClicked(MouseEvent e) {
                 showProjectInfo();
@@ -112,18 +132,30 @@ public class Frame extends JFrame {
         });
         return welcomeLabel;
     }
-
+    
     private JButton createProjectInfoButton() {
         JButton projectInfoButton = new JButton("Project Info");
-        projectInfoButton.setFont(new Font("Sans Serif", Font.PLAIN, 22)); // Larger font for button
+        projectInfoButton.setFont(new Font("Sans Serif", Font.ITALIC, 22));
         projectInfoButton.setForeground(Color.WHITE);
-        projectInfoButton.setBackground(new Color(0, 150, 136)); // Teal color for button
+        projectInfoButton.setBackground(new Color(30, 144, 255)); // Dodger Blue
         projectInfoButton.setOpaque(true);
         projectInfoButton.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.ORANGE, 3),
+                BorderFactory.createLineBorder(Color.WHITE, 3),
                 BorderFactory.createEmptyBorder(5, 10, 5, 10)));
         projectInfoButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        projectInfoButton.setFocusPainted(false); // Remove focus border
+        projectInfoButton.setFocusPainted(false);
+
+        projectInfoButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                projectInfoButton.setBackground(new Color(65, 105, 225)); // Royal Blue
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                projectInfoButton.setBackground(new Color(30, 144, 255));
+            }
+        });
 
         projectInfoButton.addActionListener(e -> showProjectInfo());
 

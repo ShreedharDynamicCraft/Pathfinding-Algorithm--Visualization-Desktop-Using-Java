@@ -1,10 +1,13 @@
 package GraphicalUI;
 
+import GraphicalUI.Panel;
 import Util.Node;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.*;
+
 
 public class Panel extends JPanel {
     public static Color BACKGROUND_COLOR = Color.WHITE;
@@ -23,7 +26,7 @@ public class Panel extends JPanel {
     }
 
     public static int WIDTH = 1500;
-    public static int HEIGHT = 900;
+    public static int HEIGHT = 840;
     public static int SETTINGS_WIDTH = 400;
     public static int SETTINGS_HEIGHT = HEIGHT;
     public static int GRID_WIDTH = WIDTH - SETTINGS_WIDTH;
@@ -72,6 +75,7 @@ public class Panel extends JPanel {
                 }
             }
         });
+        
     }
 
     public void createNodes() {
@@ -154,35 +158,34 @@ public class Panel extends JPanel {
     public Graphics2D getGraphics2D() {
         return (Graphics2D) this.getGraphics();
     }
+public void updateInfo() {
+    String info = "<html>";
+    info += "<div style='font-family: Arial, sans-serif; color: #333; border: none; border-radius: 0; padding: 10px; box-shadow: none;'>";
+    info += "<h2 style='color: #4CAF50; text-align: center;'>Pathfinding Algorithm Information</h2>";
+    info += "<p style='background-color: #f9f9f9; padding: 5px; border-radius: 0; animation: fadeIn 0.5s;'>";
+    info += "<strong>Grid Size:</strong> " + numRow + " x " + numCol + "<br>";
 
-    public void updateInfo() {
-        String info = "<html>";
-        info += "<div style='font-family: Arial, sans-serif; color: #333; border: 2px solid #4CAF50; border-radius: 10px; padding: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); transition: transform 0.3s;'>";
-        info += "<h2 style='color: #4CAF50; text-align: center;'>Pathfinding Algorithm Information</h2>";
-        info += "<p style='background-color: #f9f9f9; padding: 15px; border-radius: 8px; animation: fadeIn 0.5s;'>";
-        info += "<strong>Grid Size:</strong> " + numRow + " x " + numCol + "<br>";
+    info += displayNodeInfo("Start Node:", START_NODE, "#2196F3");
+    info += displayNodeInfo("End Node:", END_NODE, "#FF9800");
 
-        info += displayNodeInfo("Start Node:", START_NODE, "#2196F3");
-        info += displayNodeInfo("End Node:", END_NODE, "#FF9800");
+    info += "<strong>Solving Speed:</strong> <span style='color: #673AB7;'>" + solvingSpeed + " fps</span><br>";
+    info += "<strong>Path Length:</strong> <span style='color: #3F51B5;'>" + pathLength + "</span><br>";
+    info += "<strong>Nodes Expanded:</strong> <span style='color: #009688;'>" + numNodesExpanded + "</span><br>";
+    info += "<strong>Search Time:</strong> <span style='color: #E91E63;'>" + searchTime + " ms</span><br>";
 
-        info += "<strong>Solving Speed:</strong> <span style='color: #673AB7;'>" + solvingSpeed + " fps</span><br>";
-        info += "<strong>Path Length:</strong> <span style='color: #3F51B5;'>" + pathLength + "</span><br>";
-        info += "<strong>Nodes Expanded:</strong> <span style='color: #009688;'>" + numNodesExpanded + "</span><br>";
-        info += "<strong>Search Time:</strong> <span style='color: #E91E63;'>" + searchTime + " ms</span><br>";
+    String selectedAlgorithm = settingsPanel.getSelectedAlgorithm();
+    info += getAlgorithmComplexity(selectedAlgorithm);
 
-        String selectedAlgorithm = settingsPanel.getSelectedAlgorithm();
-        info += getAlgorithmComplexity(selectedAlgorithm);
+    info += "<h3 style='color: #FF5722;'>Key:</h3>";
+    info += "<strong>V:</strong> Number of vertices (nodes)<br>";
+    info += "<strong>E:</strong> Number of edges (connections)<br>";
+    info += "<strong>N:</strong> Number of cells in the maze<br>";
 
-        info += "<h3 style='color: #FF5722;'>Key:</h3>";
-        info += "<strong>V:</strong> Number of vertices (nodes)<br>";
-        info += "<strong>E:</strong> Number of edges (connections)<br>";
-        info += "<strong>N:</strong> Number of cells in the maze<br>";
+    info += "</p></div></html>";
 
-        info += "</p></div></html>";
-
-        settingsPanel.setInfo(info);
-        repaint();
-    }
+    settingsPanel.setInfo(info);
+    repaint();
+}
 
     private String displayNodeInfo(String label, Node node, String color) {
         String nodeInfo = "<strong>" + label + ":</strong> ";
@@ -211,7 +214,7 @@ public class Panel extends JPanel {
     }
 
     private String getAlgorithmInfo(String algorithmName, String timeComplexity, String spaceComplexity) {
-        return "<div style='margin-top: 10px; border: 1px solid #4CAF50; padding: 10px; border-radius: 8px; background-color: #e8f5e9; transition: background-color 0.3s;'>"
+        return "<div style='margin-top: 1px; border: 2px solid #4CAF50; padding: 10px; border-radius: 2px; background-color: #e8f5e9; transition: background-color 0.3s;'>"
                 + "<strong>" + algorithmName + "</strong><br>"
                 + "<strong>Time Complexity:</strong> " + timeComplexity + "<br>"
                 + "<strong>Space Complexity:</strong> " + spaceComplexity + "<br>"

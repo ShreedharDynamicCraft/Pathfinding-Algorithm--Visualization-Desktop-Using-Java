@@ -6,6 +6,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import Util.Node.NodeType;
+
 public class Node implements Comparable<Node> {
     public static Node start = null;
     public static Node end = null;
@@ -417,4 +419,10 @@ public class Node implements Comparable<Node> {
         }
         return null;
     }
+
+
+    public int getHCost() {
+    return this.hCost;
+}
+
 }
