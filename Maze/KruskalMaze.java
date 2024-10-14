@@ -1,12 +1,11 @@
 package Maze;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.Panel;
+import Helper.MazeAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.*;
-
-import GraphicalUI.Panel;
 
 public class KruskalMaze extends MazeAlgo {
     private final ArrayList<Node> nodesList = new ArrayList<>();

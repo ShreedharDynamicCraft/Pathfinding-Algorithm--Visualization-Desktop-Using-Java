@@ -1,19 +1,14 @@
-package Maze;
+package Helper;
 
-import Util.Node;
-
-import static GraphicalUI.Frame.frameRate;
-import static GraphicalUI.Panel.*;
-
-import javax.sound.sampled.Clip;
-import javax.swing.*;
-
+import Backend.Node;
 import GraphicalUI.CustomPopup;
+import static GraphicalUI.Frame.frameRate;
 import GraphicalUI.Panel;
+import static GraphicalUI.Panel.*;
+import javax.swing.*;
 
 public abstract class MazeAlgo extends SwingWorker<Void, Void> {
     protected final Panel panel;
-    private Clip clip; // Field to manage sound
 
     protected MazeAlgo(Panel panel) {
         this.panel = panel;

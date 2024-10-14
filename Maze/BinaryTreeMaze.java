@@ -1,14 +1,13 @@
 package Maze;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.Panel;
+import Helper.MazeAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import GraphicalUI.Panel;
 
 public class BinaryTreeMaze extends MazeAlgo {
     public BinaryTreeMaze(Panel panel) {

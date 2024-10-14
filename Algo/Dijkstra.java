@@ -1,14 +1,13 @@
 package Algo;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.Panel;
+import Helper.SearchAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import GraphicalUI.Panel;
 
 public class Dijkstra extends SearchAlgo {
     private ArrayList<Node> openSet;

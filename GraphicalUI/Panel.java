@@ -1,7 +1,7 @@
 package GraphicalUI;
 
+import Backend.Node;
 import GraphicalUI.Panel;
-import Util.Node;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

@@ -1,4 +1,4 @@
-package Util;
+package Backend;
 
 import static GraphicalUI.Panel.WALL_COLOR;
 import static GraphicalUI.Panel.nodeSize;

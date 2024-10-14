@@ -492,10 +492,12 @@
 package GraphicalUI;
 
 import Algo.*;
+import Backend.HeuristicFunction;
+import Backend.Node;
 import GraphicalUI.Panel;
+import Helper.MazeAlgo;
+import Helper.SearchAlgo;
 import Maze.*;
-import Util.HeuristicFunction;
-import Util.Node;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -506,12 +508,12 @@ import javax.swing.*;
 
 public class SettingsPanel extends JPanel {
     private final JButton startButton = new JButton("Start Pathfinding");
-    private final JButton stopButton = new JButton("Pause/Resume");
+    private final JButton stopButton = new JButton("Pause / Resume Search");
     private final JButton resetButton = new JButton("Reset All");
     private final JButton generateButton = new JButton("Generate Maze");
     private final JButton toggleModeButton = new JButton("Toggle Dark/Light Mode");
     private final JButton uploadButton = new JButton("Upload Custom Maze");
-    private final JButton getMoreInfoButton = new JButton("Algorithm Details");
+    private final JButton getMoreInfoButton = new JButton("View Algorithm Info");
 
     private final JLabel speedLabel = new JLabel("Animation Speed");
     private final JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 210, 70);
@@ -533,7 +535,7 @@ public class SettingsPanel extends JPanel {
     private final JComboBox<String> algorithmBox = new JComboBox<>(algorithms);
 
     private final JLabel mazeTypeLabel = new JLabel("Maze Type");
-    private final String[] mazeTypes = {"Binary Tree", "Recursive Backtracking", "Recursive Division", "Prim's", "Kruskal's", "Hunt & Kill", "Wilson's", "Aldous-Broder", "Upload Text File"};
+    private final String[] mazeTypes = {"Binary Tree", "Recursive Backtracking", "Recursive Division", "Prim's", "Kruskal's", "Hunt & Kill", "Wilson's", "Aldous-Broder", "TajMahalMaze","RangoliMaze","Upload Text File"};
 
     private final JComboBox<String> mazeTypeBox = new JComboBox<>(mazeTypes);
 
@@ -578,45 +580,6 @@ public class SettingsPanel extends JPanel {
         revalidate();
         repaint();
     }
-    // private void addComponentsToPanel(JPanel contentPanel) {
-    //     // add(Box.createVerticalStrut(10));
-    //     addLabeledComponent(contentPanel, speedLabel, speedSlider, speedValue);
-        
-    //     addLabeledComponent(contentPanel, sizeLabel, sizeSlider, sizeValue);
-    //     addLabeledComponent(contentPanel, mazeTypeLabel, mazeTypeBox);
-    //     contentPanel.add(uploadButton);
-    //     addLabeledComponent(contentPanel, algorithmLabel, algorithmBox);
-    //     addLabeledComponent(contentPanel, heuristicLabel, heuristicBox);
-    
-    //     contentPanel.add(Box.createVerticalStrut(2));
-    //     contentPanel.add(startButton);
-    //     contentPanel.add(stopButton);
-    //     contentPanel.add(resetButton);
-    //     contentPanel.add(generateButton);
-    //     contentPanel.add(toggleModeButton);
-    //     contentPanel.add(getMoreInfoButton);
-    
-    //     contentPanel.add(Box.createVerticalStrut(2));
-    //     contentPanel.add(info);
-    //     contentPanel.add(selectedFileLabel);
-    
-    //     for (Component comp : contentPanel.getComponents()) {
-    //         if (comp instanceof JComponent) {
-    //             ((JComponent) comp).setAlignmentX(Component.CENTER_ALIGNMENT);
-    //         }
-    //     }
-    // }
-    // private void addLabeledComponent(JPanel parentPanel, JLabel label, JComponent... components) {
-    //     JPanel panel = new JPanel();
-    //     panel.setLayout(new FlowLayout(FlowLayout.CENTER));
-    //     panel.add(label);
-    //     for (JComponent component : components) {
-    //         panel.add(component);
-    //     }
-        
-    //     parentPanel.add(panel);
-    // }
-    
 
     private void addComponentsToPanel(JPanel contentPanel) {
         // Reduced vertical gaps and added components for interactivity
@@ -799,7 +762,7 @@ public class SettingsPanel extends JPanel {
         resetPath();
         selectedFile = null;
         selectedFileLabel.setText("No file selected.");
-        mazeTypeBox.setSelectedIndex(0);
+        mazeTypeBox.setSelectedIndex(1);
         algorithmBox.setSelectedIndex(0);
         heuristicBox.setSelectedIndex(0);
         speedSlider.setValue(50);
@@ -820,13 +783,35 @@ public class SettingsPanel extends JPanel {
     private MazeAlgo createMazeAlgorithm(String selectedMaze) {
         if (selectedMaze.equals("Upload Text File")) {
             if (selectedFile == null) {
-                JOptionPane.showMessageDialog(null, "Please upload a maze file first.", "No File Selected", JOptionPane.WARNING_MESSAGE);
+                String message = "<html><body style='text-align:center;'>" +
+                "<h2 style='color:red;'>No Maze File Selected</h2>" +
+                "<p style='font-size:14px;'>Please upload a maze file to proceed.</p>" +
+                "</body></html>";
+               // Define options for buttons
+        Object[] options = {"Retry", "Cancel"};
+
+        // Show the customized message dialog with default warning icon and custom buttons
+        int choice = JOptionPane.showOptionDialog(null, message, "Maze File Missing", 
+                                                  JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, 
+                                                  null, options, options[0]);
+
+        // Handle user response
+        if (choice == 0) {
+            System.out.println("Retry selected");
+            // Add retry logic here
+        } else {
+            System.out.println("Cancel selected");
+            // Add cancel logic here
+        }
+                // JOptionPane.showMessageDialog(null, "Please upload a maze file first.", "No File Selected", JOptionPane.WARNING_MESSAGE);
                 return null;
             }
             return new FileMaze(panel, selectedFile);
         }
         return switch (selectedMaze) {
-            case "Binary Tree" -> new BinaryTreeMaze(panel);
+             case "Binary Tree" -> new BinaryTreeMaze(panel);
+            case "TajMahalMaze" -> new TajMahalMaze(panel);
+case "RangoliMaze.java"->new RangoliMaze(panel);
             case "Recursive Backtracking" -> new RBTMaze(panel);
             case "Prim's" -> new PrimMaze(panel);
             case "Hunt & Kill" -> new HuntAndKillMaze(panel);
@@ -834,6 +819,7 @@ public class SettingsPanel extends JPanel {
             case "Kruskal's" -> new KruskalMaze(panel);
             case "Aldous-Broder" -> new AldousBroder(panel);
             case "Recursive Division" -> new RecursiveDivision(panel);
+            
             default -> null;
         };
     }

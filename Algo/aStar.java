@@ -1,12 +1,12 @@
 package Algo;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.CustomPopup;
+import GraphicalUI.Panel;
+import Helper.SearchAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.PriorityQueue;
-
-import GraphicalUI.Panel;
 
 public class aStar extends SearchAlgo {
     private final Node startNode;
@@ -37,8 +37,10 @@ public class aStar extends SearchAlgo {
                 if (neighbor.equals(endNode)) {
                     pathFound = true;
                     endNode.setParent(currentNode);
-//                    System.out.println("Path found");
-//                    tracePath();
+                   System.out.println("Path found");
+                   CustomPopup.showPopupMessage("Path Found SucessFully", 1100);
+
+                //    tracePath();
                     break;
                 }
                 openNode(neighbor);
@@ -46,6 +48,8 @@ public class aStar extends SearchAlgo {
             process();
             if (openSet.isEmpty()) {
                 System.out.println("No path found");
+                        CustomPopup.showPopupMessage("No Path Found", 1100);
+
                 break;
             }
         }

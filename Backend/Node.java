@@ -1,12 +1,11 @@
-package Util;
+package Backend;
 
+import Backend.Node.NodeType;
+import Backend.Rectangle;
 import static GraphicalUI.Panel.*;
-
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
-import Util.Node.NodeType;
 
 public class Node implements Comparable<Node> {
     public static Node start = null;
@@ -27,6 +26,8 @@ public class Node implements Comparable<Node> {
     private boolean visited = false;
     private boolean path = false;
 
+    
+
     public enum NodeType {
         START,
         END,
@@ -35,6 +36,8 @@ public class Node implements Comparable<Node> {
         VISITED,
         PATH,
         SOLUTION,
+        WALL,
+        
     }
 
     private NodeType type = NodeType.WALKABLE;
@@ -169,6 +172,9 @@ public class Node implements Comparable<Node> {
     }
     public int getCenterY() {
         return this.rect.getCenterY();
+    }
+    public NodeType getType() {
+        return this.type;
     }
     
 

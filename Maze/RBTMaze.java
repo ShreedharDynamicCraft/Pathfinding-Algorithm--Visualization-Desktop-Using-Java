@@ -1,13 +1,12 @@
 package Maze;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.Panel;
+import Helper.MazeAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.Random;
 import java.util.Stack;
-
-import GraphicalUI.Panel;
 
 public class RBTMaze extends MazeAlgo{
     private boolean mazeFinished = false;

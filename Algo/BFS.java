@@ -1,12 +1,11 @@
 package Algo;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.Panel;
+import Helper.SearchAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.Stack;
-
-import GraphicalUI.Panel;
 
 public class BFS extends SearchAlgo {
     private final Stack<Node> stack = new Stack<>();

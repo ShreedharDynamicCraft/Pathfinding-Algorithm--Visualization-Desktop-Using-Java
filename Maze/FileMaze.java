@@ -1,15 +1,14 @@
 package Maze;
 
-import Util.Node;
-
-import javax.swing.*;
-
+import Backend.Node;
 import GraphicalUI.Panel;
+import Helper.MazeAlgo;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.*;
 
 public class FileMaze extends MazeAlgo {
     private File selectedFile;

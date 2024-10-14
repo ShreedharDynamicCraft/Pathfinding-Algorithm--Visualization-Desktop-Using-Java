@@ -1,12 +1,11 @@
 package Algo;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.Panel;
+import Helper.SearchAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.Stack;
-
-import GraphicalUI.Panel;
 
 public class RBT extends SearchAlgo{
     private Stack<Node> stack = new Stack<>();

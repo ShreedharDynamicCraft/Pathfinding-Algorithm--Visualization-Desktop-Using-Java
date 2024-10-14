@@ -1,12 +1,11 @@
 package Maze;
 
-import Util.Node;
+import Backend.Node;
+import GraphicalUI.Panel;
+import Helper.MazeAlgo;
 
 import static GraphicalUI.Panel.*;
-
 import java.util.Random;
-
-import GraphicalUI.Panel;
 
 public class RecursiveDivision extends MazeAlgo {
     private static final int HORIZONTAL = 1;

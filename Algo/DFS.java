@@ -1,13 +1,12 @@
 package Algo;
 
-import Util.Node;
-
+import Backend.Node;
 import static GraphicalUI.Frame.frameRate;
-import static GraphicalUI.Panel.*;
-
-import java.util.Stack;
-
 import GraphicalUI.Panel;
+import Helper.SearchAlgo;
+
+import static GraphicalUI.Panel.*;
+import java.util.Stack;
 
 public class DFS extends SearchAlgo {
     private long startTime;
