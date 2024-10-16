@@ -31,7 +31,7 @@ public class GraphPathfindingVisualizer extends JPanel implements AlgorithmProvi
 
 
     private final JLabel speedLabel = new JLabel("Animation Speed");
-    private final JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+    private final JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 1, 30, 10);
     private final JLabel speedValue = new JLabel("10 fps");
     public GraphPathfindingVisualizer() {
         setLayout(new BorderLayout());
@@ -205,7 +205,7 @@ public class GraphPathfindingVisualizer extends JPanel implements AlgorithmProvi
 
     private void animateAlgorithm(List<Node> visitedNodes, List<Node> path) {
         new Thread(() -> {
-            int delay = speedSlider.getValue();
+            int delay = 1000/speedSlider.getValue();
             // Animate visited nodes
             for (Node node : visitedNodes) {
                 SwingUtilities.invokeLater(() -> {
